@@ -17,6 +17,7 @@ import {
   writeUIntLE,
 } from './utils/leb128';
 import { iexp2 } from './utils/bigint-math';
+import { TextDecoderExtended } from './utils/decoder';
 
 /**
  * This module provides a combinator library to create serializers/deserializers
@@ -483,7 +484,7 @@ export class TextClass extends PrimitiveType<string> {
     this.checkType(t);
     const len = lebDecode(b);
     const buf = safeRead(b, Number(len));
-    const decoder = new TextDecoder('utf8', { fatal: true });
+    const decoder = new TextDecoderExtended('utf8');
     return decoder.decode(buf);
   }
 
@@ -1439,7 +1440,7 @@ export class FuncClass extends ConstructType<[PrincipalId, string]> {
 
     const mLen = Number(lebDecode(b));
     const buf = safeRead(b, mLen);
-    const decoder = new TextDecoder('utf8', { fatal: true });
+    const decoder = new TextDecoderExtended('utf8');
     const method = decoder.decode(buf);
 
     return [canister, method];

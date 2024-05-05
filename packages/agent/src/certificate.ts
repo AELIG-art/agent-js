@@ -5,6 +5,7 @@ import { concat, fromHex, toHex } from './utils/buffer';
 import { Principal } from '@dfinity/principal';
 import * as bls from './utils/bls';
 import { decodeTime } from './utils/leb';
+import { TextDecoderExtended } from './utils/decoder';
 
 /**
  * A certificate may fail verification with respect to the provided public key
@@ -51,7 +52,7 @@ export function hashTreeToString(tree: HashTree): string {
       .map(x => '  ' + x)
       .join('\n');
   function labelToString(label: ArrayBuffer): string {
-    const decoder = new TextDecoder(undefined, { fatal: true });
+    const decoder = new TextDecoderExtended(undefined);
     try {
       return JSON.stringify(decoder.decode(label));
     } catch (e) {
